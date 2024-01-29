@@ -1,6 +1,6 @@
 vector<int> verticalOrder(Node *root)
     {
-        map<int,map<int,vector<int>>> nodes;
+        map<int,map<int,vector<int>>> MapNodes;
         queue<pair<Node*,pair<int,int>>>q;
         q.push({root,{0,0}});
         while(!q.empty()){
@@ -9,7 +9,7 @@ vector<int> verticalOrder(Node *root)
             Node* node = p.first;
             int vertical = p.second.first;
             int level = p.second.second;
-            nodes[vertical][level].push_back(node->data);
+            MapNodes[vertical][level].push_back(node->data);
             if(node->left){
                 q.push({node->left,{vertical-1,level+1}});
             }
@@ -17,11 +17,11 @@ vector<int> verticalOrder(Node *root)
                 q.push({node->right,{vertical+1,level+1}});
             }
         }
-        vector<int>ans;
-        for(auto p : nodes){
+        vector<int>FinalOutput;
+        for(auto p : MapNodes){
             for(auto q: p.second){
-                ans.insert(ans.end(),q.second.begin(),q.second.end());
+                FinalOutput.insert(FinalOutput.end(),q.second.begin(),q.second.end());
             }
         }
-        return ans;
+        return FinalOutput;
     }

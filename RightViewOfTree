@@ -5,15 +5,15 @@ class Solution
     vector<int> rightView(Node *root)
     {
        queue<Node*>q;
-       vector<int>ans;
+       vector<int>FinalOutput;
        q.push(root);
        while(!q.empty()){
            int sz = q.size();
-           int val = 0;
+           int TemporaryValue = 0;
            while(sz--){
                auto p = q.front();
                q.pop();
-               val = p->data;
+               TemporaryValue = p->data;
                if(p->left){
                    q.push(p->left);
                }
@@ -21,8 +21,8 @@ class Solution
                    q.push(p->right);
                }
            }
-           ans.push_back(val);
+           FinalOutput.push_back(TemporaryValue);
        }
-       return ans;
+       return FinalOutput;
     }
 };

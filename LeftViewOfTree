@@ -1,29 +1,29 @@
 vector<int> leftView(Node *root)
 {
-    vector<int>ans;
-    if(root == NULL)return ans;
+    vector<int>FinalOutput;
+    if(root == NULL)return FinalOutput;
    queue<Node*>q;
    q.push(root);
    
    while(!q.empty()){
        int sz = q.size();
-       int val = 10001;
+       int TemporaryValue = 10001;
        while(sz--){
            
-           auto cur = q.front();
+           auto CurrentNode = q.front();
            q.pop();
-           if(val == 10001){
-               val = cur->data;
+           if(TemporaryValue == 10001){
+               TemporaryValue = CurrentNode->data;
            }
            
-           if(cur->left){
-               q.push(cur->left);
+           if(CurrentNode->left){
+               q.push(CurrentNode->left);
            }
-           if(cur->right){
-               q.push(cur->right);
+           if(CurrentNode->right){
+               q.push(CurrentNode->right);
            }
        }
-       ans.push_back(val);
+       FinalOutput.push_back(TemporaryValue);
    }
-   return ans;
+   return FinalOutput;
 }
