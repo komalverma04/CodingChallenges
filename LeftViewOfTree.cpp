@@ -1,3 +1,11 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Node {
+public:
+int data;
+Node* left = NULL;
+Node* right = NULL;
+};
 vector<int> leftView(Node *root)
 {
     vector<int>FinalOutput;
