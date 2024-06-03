@@ -1,7 +1,7 @@
 class Solution {
     void solve(vector<int>& nums, set<vector<int>>& st, vector<int>& output, int i){
         if(i == nums.size()){
-            sort(output.begin(), output.end());
+            //sort(output.begin(), output.end());
             st.insert(output);
             return;
         }
@@ -18,6 +18,7 @@ public:
         set<vector<int>> st;
         vector<vector<int>> ans;
         vector<int> output;
+        sort(nums.begin(), nums.end());
         solve(nums, st, output, 0);
         for(auto s: st){
             ans.push_back(s);
