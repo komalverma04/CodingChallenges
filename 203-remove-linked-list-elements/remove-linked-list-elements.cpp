@@ -11,49 +11,31 @@
 class Solution {
 public:
     ListNode* removeElements(ListNode* head, int val) {
-        if(head == NULL)return NULL;
-        if(head->next == NULL){
-            if(head->val == val){
-                return NULL;
-            }else{
-                 return head;
-            }
-           
-        }
-        ListNode* prev = head;
+        // Create a dummy node that points to the head of the list
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
         
-         ListNode* temp = head->next;
-        while(temp->next != NULL ){
-            if(temp->val == val){
-                prev->next = temp->next;
-                temp->next = NULL;
-                temp = prev->next;
-            }else{
-                prev = prev->next;
-                temp = temp->next;
+        // Use two pointers: prev and curr
+        ListNode* prev = dummy;
+        ListNode* curr = head;
+        
+        while (curr != nullptr) {
+            if (curr->val == val) {
+                // Skip the current node
+                prev->next = curr->next;
+                delete curr;
+            } else {
+                // Move the prev pointer
+                prev = curr;
             }
+            // Move to the next node
+            curr = prev->next;
         }
         
-        if(head->val == val){
-            ListNode* ptr = head;
-            head = head->next;
-            ptr->next = NULL;
-            delete(ptr);
-        }
-        prev = head;
-        if(prev->next == NULL){
-            if(prev->val == val){
-                return NULL;
-            }
-            return head;
-        }
-       while(prev->next->next != NULL){
-        prev = prev->next;
-       }
-        if(temp->val == val){
-            prev->next = NULL;
-            delete(temp);
-        }
-        return head;
+        // Store the new head and delete the dummy node
+        ListNode* newHead = dummy->next;
+        delete dummy;
+        
+        return newHead;
     }
 };
