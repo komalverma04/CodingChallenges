@@ -1,0 +1,28 @@
+/*struct Node {
+    int data;
+    Node *left, *right;
+};*/
+
+class Solution{
+    void inorder(Node* root, vector<int> &arr){
+      if(root == NULL) return;
+      inorder(root->left, arr);
+      arr.push_back(root->data);
+      inorder(root->right, arr);
+  }
+  void to_maxheap(Node* root, vector<int> &arr, int &i){
+      if(root == NULL)return;
+     
+      to_maxheap(root->left, arr, i);
+      to_maxheap(root->right, arr, i);
+       root->data = arr[i++];
+  }
+  public:
+    void convertToMaxHeapUtil(Node* root)
+    {
+       vector<int> arr;
+      inorder(root, arr);
+      int i = 0;
+      to_maxheap(root,arr,i);
+    }    
+};
