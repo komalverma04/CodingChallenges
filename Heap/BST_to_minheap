@@ -1,0 +1,52 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+class Node{
+    public:
+  int data;
+  Node* left, *right;
+};
+  Node* getNode(int data){
+      Node* NewNode = new Node;
+      NewNode->data = data;
+      NewNode->left = NewNode->right = NULL;
+      return NewNode;
+  }
+  void inorder(Node* root, vector<int> &arr){
+      if(root == NULL) return;
+      inorder(root->left, arr);
+      arr.push_back(root->data);
+      inorder(root->right, arr);
+  }
+  void to_heap(Node* root, vector<int> &arr, int &i){
+      if(root == NULL)return;
+      root->data = arr[i++];
+      to_heap(root->left, arr, i);
+      to_heap(root->right, arr, i);
+  }
+  
+  void solve(Node* root){
+     vector<int> arr;
+      inorder(root, arr);
+      int i = 0;
+      to_heap(root,arr,i);
+  }
+void preorder(Node* root){
+    if(root == NULL) return;
+    cout<<root->data<<" ";
+    preorder(root->left);
+    preorder(root->right);
+    
+}
+int main() {
+    Node* root = getNode(4);
+    root->left = getNode(2);
+    root->right = getNode(6);
+    root->left->left = getNode(1);
+    root->left->right = getNode(3);
+    root->right->left = getNode(5);
+    root->right->right = getNode(7);
+    solve(root);
+    preorder(root);
+    return 0;
+}
