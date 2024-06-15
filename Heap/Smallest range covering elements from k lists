@@ -1,0 +1,66 @@
+class Node{
+    public:
+int data;
+int row;
+int col;
+
+Node(int data, int row, int col){
+    this-> data = data;
+    this->row = row;
+    this->col = col;
+}
+};
+class compare{
+    public:
+    bool operator()(Node *a, Node *b){
+        return a -> data > b -> data;
+    }
+};
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        vector<int>ans(2); int diff = INT_MAX;
+        int mini = INT_MAX; int maxi = INT_MIN;
+        priority_queue< Node* , vector<Node*>, compare> pq;
+        int k = nums.size();
+        for(int i = 0;i<k;i++){
+            pq.push(new Node(nums[i][0],i,0));
+            maxi = max(maxi, nums[i][0]);
+        }
+        mini = pq.top()->data;
+        diff = maxi - mini;
+        ans[0] = mini;
+        ans[1] = maxi;
+        while(!pq.empty()){
+            
+            Node *temp = pq.top();
+            pq.pop();
+            int row = temp -> row;
+            int col = temp -> col;
+            col = col+1;
+            if(col < nums[row].size()){
+                pq.push(new Node(nums[row][col], row, col));
+            }else{
+                break;
+            }
+            mini = pq.top() -> data;
+            maxi = max(maxi, nums[row][col]);
+            if(diff > maxi-mini){
+                diff = maxi - mini;
+                ans[0] = mini;
+                ans[1] = maxi;
+            }
+            delete temp;
+        }
+        while(! pq.empty()){
+            delete pq.top();
+            pq.pop();
+        }
+        return ans;
+    }
+};
+/*
+1.	In C++, when you declare a vector like vector<int> ans;, it is created with size 0, meaning it has no elements initially. Therefore, accessing ans[0] or ans[1] is invalid because those indices do not exist in the vector.
+2.	Memory management: The temporary Node object created with new is deleted after it is used. Additionally, all remaining nodes in the priority queue are deleted at the end to ensure no memory leaks.
+3.	/ Clean up remaining nodes in the priority queue to prevent memory leaks while (!pq.empty()) { delete pq.top(); pq.pop(); }
+*/
