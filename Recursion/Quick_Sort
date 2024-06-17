@@ -1,0 +1,38 @@
+Pick pivot and place it at its correct place
+Smaller on left and larger on right
+After each step one element is placed on its right place
+for placing elements smaller than the pivot in left and larger in right: we will use two pointers: i, j: i will point to larger element from left and j will point to smaller element on right
+then we will swap then
+
+
+void quickSort(int arr[], int low, int high)
+    {
+        if(low >= high)return;
+        int p = partition(arr, low, high);
+        quickSort(arr, low, p-1);
+        quickSort(arr, p+1, high);
+        return;
+    }
+    
+    public:
+    int partition (int arr[], int low, int high)
+    {
+       int pivot = arr[low];
+       int i = low;
+       int j = high;
+       while(i < j){
+           while(arr[i] <= pivot && i < high){
+               i++;
+           }
+           while(arr[j] > pivot && j > low){
+               j--;
+           }
+           if(i < j){
+               swap(arr[i], arr[j]);
+           }else{
+               swap(arr[j], arr[low]);
+               break;
+           }
+       }
+       return j;
+    }
