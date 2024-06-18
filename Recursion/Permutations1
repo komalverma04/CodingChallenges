@@ -1,0 +1,53 @@
+n! = permutations
+App1: class Solution {
+    void solve(vector<int>& nums, map<int,int>mpp, vector<int> ds, vector<vector<int>>& ans, int n){
+        if(ds.size() == n){
+            ans.push_back(ds);
+            return;
+        }
+        for(int ind = 0; ind < n; ind++){
+            if(!mpp[nums[ind]]){
+                mpp[nums[ind]] = true;
+                ds.push_back(nums[ind]);
+                solve(nums, mpp, ds, ans, n);
+                ds.pop_back();
+                mpp[nums[ind]] = false;
+            }
+        }
+    }
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        map<int,int>mpp;
+        vector<int> ds;
+        vector<vector<int>> ans;
+        solve(nums,mpp, ds, ans,nums.size());
+        return ans;
+    }
+};
+T.C. = n! * n
+sc = O(n * n!)each permutation is of length n
+
+
+App 2: 
+class Solution {
+    void solve(vector<int>& nums,  vector<vector<int>>& ans, int n, int i){
+        if(i >= n){
+            ans.push_back(nums);
+            return;
+        }
+        for(int ind = i; ind < n; ind++){
+                swap(nums[ind], nums[i]);
+                solve(nums,ans, n, i+1);
+               swap(nums[ind], nums[i]);
+        }
+    }
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        
+        vector<int> ds;
+        vector<vector<int>> ans;
+        solve(nums, ans,nums.size(),0);
+        return ans;
+    }
+};
+TC = SC = n * n!
