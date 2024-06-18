@@ -17,3 +17,4 @@
     }
 SC = 2^n
 Brute force: By power set: tc : 2^n*n
+https://www.geeksforgeeks.org/problems/subset-sums2234/1
