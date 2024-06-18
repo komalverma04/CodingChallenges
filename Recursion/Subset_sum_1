@@ -1,0 +1,19 @@
+ void solve(vector<int> arr, vector<int>& ans, int i , int sum, int n){
+        if(i>n)return;
+        if(i == n){ans.push_back(sum);
+            return;
+        }
+        solve(arr, ans, i+1, sum, n);
+        if(i<n)
+        solve(arr, ans, i+1, sum + arr[i], n);
+        return;
+    }
+  public:
+    vector<int> subsetSums(vector<int> arr, int n) {
+        vector<int> ans;
+        int i, sum = 0;
+        solve(arr, ans, 0, sum, n); 2^n
+        return ans;
+    }
+SC = 2^n
+Brute force: By power set: tc : 2^n*n
