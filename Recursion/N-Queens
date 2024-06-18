@@ -1,0 +1,65 @@
+N-Queens
+for every column we have to check every row
+issafe function:
+IT WILL check it:
+Now whenever we are placing queens we need to check for 8 directions:
+But do we actually need to check all directions?
+No, we need to only check 3 directions that could be already filled
+for example there is no need to check for upward direction: As we are ensuring that we are placing only one queen in a coln
+we don't need to check for direction towards right: as we are moving row and coln wise so it couldn't be filled pehle se
+
+class Solution {
+    bool issafe(int row, int col, vector<string> board, int n){
+        int i = row;
+        int j = col;
+        while( i >= 0 && j >= 0){
+            if(board[i][j] == 'Q')return false;
+            i--; j--;
+        }
+        i = row;
+        j = col;
+        while(j >= 0){
+            if(board[i][j] == 'Q')return false;
+             j--;
+        }
+        i = row;
+        j = col;
+        while(j >= 0 && i < n){
+            if(board[i][j] == 'Q')return false;
+             j--; i++;
+        }
+        return true;
+    }
+    void solve(vector<vector<string>>& ans, vector<string> board, int n, int col){
+        if( col >= n){ans.push_back(board);
+        return;}
+
+        for(int row = 0; row < n; row++){
+            if(issafe(row, col, board, n)){
+                board[row][col] = 'Q';
+                solve(ans, board, n, col+1);
+                board[row][col] = '.';
+            }
+        }
+        return;
+    }
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> ans;
+        vector<string> board(n);
+        string s(n, '.');
+        for(int i = 0;i < n;i++){
+            board[i] = s;
+        }
+        solve(ans, board, n, 0);
+        return ans;
+    }
+};
+
+T.C. :  for each column we are checking for each rows: n rows and n columns n^n
+issafe function's TC is O(n)
+=> n^(n+1)
+
+S.C. : O(n^2) for each board
+and in worst case there can be n!
+=> n! * n^2
