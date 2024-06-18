@@ -51,3 +51,5 @@ public:
     }
 };
 TC = SC = n * n!
+
+https://leetcode.com/problems/permutations/
