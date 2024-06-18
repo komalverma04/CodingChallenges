@@ -1,0 +1,26 @@
+class Solution {
+    void solve(vector<vector<int>>& ans, vector<int>& nums, vector<int> output, int i, int n){
+       ans.push_back(output);
+        
+        for(int ind = i; ind < n;ind++){
+            if(ind > i && nums[ind] == nums[ind - 1]){
+                continue;
+            }
+            output.push_back(nums[ind]);
+            solve(ans, nums, output, ind+1, n);
+            output.pop_back();
+        }
+    }
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> ans;
+        vector<int> output;
+        sort(nums.begin(),nums.end());
+        solve(ans, nums, output, 0, n);
+        return ans;
+    }
+};
+Brute force approach: sort array -> use set for avoiding duplicates TC: 2^n * n * logn
+T.C.: 2^n*n
+same space
