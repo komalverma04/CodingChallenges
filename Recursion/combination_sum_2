@@ -1,0 +1,86 @@
+class Solution {
+    void solve(vector<int>& candidates,  set<vector<int>>& ans, vector<int> output, int target, int i){
+        if(i >= candidates.size()){
+            if(target == 0){
+                ans.insert(output);
+            }
+            return;
+        }
+        solve(candidates, ans, output, target, i+1);
+        if(candidates[i] <= target){
+            output.push_back(candidates[i]);
+            target -= candidates[i];
+            solve(candidates, ans, output, target, i+1);
+        }
+        return;
+    }
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end()); // nlog(n)
+        set<vector<int>> ans;
+        vector<int> output;
+        solve(candidates, ans, output, target, 0); // 2^n*k*logm
+        vector<vector<int>> final_ans;
+        for(auto it: ans){
+            final_ans.push_back(it); // m*k ( k is the avg length of combinations : worst case k = O(n), m is no. of unique combinations in worst case m = 2^n)
+        }
+        return final_ans;
+    }
+};
+Each combination generation step takes 
+𝑂(𝑘)O(k) time, where 𝑘k is the maximum length of the combination. In the worst case, 
+𝑘≤𝑛
+k≤n.
+  The maximum depth of the recursion tree isO(n)
+set ans will take O(2^n)*k 
+output : O(n)
+
+
+
+
+
+
+
+
+
+
+
+optimisation:-
+  class Solution {
+    void solve(vector<int>& candidates,  vector<vector<int>>& ans, vector<int> output, int target, int i){
+         if(target == 0){
+                ans.push_back(output);
+                 return;
+            }
+           
+        if(i >= candidates.size()){
+            return;
+        }
+        if(target < 0 ){
+            return;
+        }
+        for(int ind = i; ind < candidates.size(); ind++){
+            if(ind > i && candidates[ind] == candidates[ind - 1]){
+                continue;
+            }
+            if(candidates[ind] > target) break;
+            
+            output.push_back(candidates[ind]);
+            
+            solve(candidates, ans, output, target - candidates[ind], ind+1);
+            output.pop_back();
+        } 
+        return;
+    }
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end()); nlogn
+        vector<vector<int>> ans;
+        vector<int> output;
+        solve(candidates, ans, output, target, 0); 2^n * n
+        
+        return ans;
+    }
+};
+ind > i: first element toh pick karna hi h
+SC: 2^n*n
