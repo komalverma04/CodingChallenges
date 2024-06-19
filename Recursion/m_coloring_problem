@@ -1,0 +1,32 @@
+bool possible(int color, bool graph[101][101], vector<int> &codings, int i, int n){
+        for(int k = 0; k < i; k++){
+            if(graph[i][k]){
+                if(codings[k] == color){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    bool solve(bool graph[101][101], vector<int> &codings, int m, int n, int ind){
+        if(ind >= n)return true;
+        for(int i = 1;i<=m;i++){
+            if(possible(i, graph, codings, ind,n )){// O(n)
+                codings[ind] = i;
+                if(solve(graph, codings, m, n, ind+1)){
+                    return true;
+                }
+                    codings[ind] = 0; 
+            }
+        }
+        return false;
+    }
+public:
+    // Function to determine if graph can be coloured with at most M colours such
+    // that no two adjacent vertices of graph are coloured with same colour.
+    bool graphColoring(bool graph[101][101], int m, int n) {
+      
+        vector<int> codings(n, 0);// sc = O(n)
+      return solve(graph, codings, m , n, 0);// TC = O(m^n * n)
+    } 
+    
