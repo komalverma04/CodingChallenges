@@ -1,0 +1,41 @@
+class Solution{
+    bool ispossible(string& s, int indx, int e, vector<string>& dict){
+        int n = dict.size();
+        string str = s.substr(indx, (e - indx)+1);
+        for(int i = 0; i<n; i++){
+            if(dict[i] == str){
+                return true;
+            }
+        }
+        return false;
+    }
+    void solve(vector<string>& ans, string output, int sz, int indx, string& s, vector<string>& dict, int n){
+        if(indx >= sz){
+            output.pop_back();
+            ans.push_back(output);
+            return;
+        }
+        for(int i = indx; i < sz; i++){
+            if(ispossible(s, indx, i, dict)){
+                output += s.substr(indx, (i - indx)+1);
+                //output.push_back();
+                output += " ";
+                solve(ans, output, sz, i+1, s, dict,n);
+                int cnt = (i - indx) + 2;
+                while(cnt != 0){
+                    output.pop_back();
+                    cnt--;
+                }
+            }
+        }
+    }
+public:
+    vector<string> wordBreak(int n, vector<string>& dict, string s)
+    {
+        vector<string> ans;
+        string output = "";
+        int sz = s.size();
+        solve(ans, output, sz, 0, s, dict, n);
+        return ans;
+    }
+};
