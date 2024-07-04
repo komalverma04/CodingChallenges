@@ -1,0 +1,51 @@
+int findShortestPath(vector<vector<int>> &mat)
+    {
+      int dx[] = {-1,0,1,0};
+      int dy[] = {0,1,0,-1};
+      int m  = mat.size();
+      int n = mat[0].size();
+      for(int i = 0;i<m;i++){
+          for(int j = 0;j<n;j++){
+              if(mat[i][j] == 0){
+                  for(int k = 0;k<4;k++){
+                      int nx = i + dx[k];
+                      int ny = j + dy[k];
+                      if(nx >= 0 && ny >= 0 && nx < m && ny < n && mat[nx][ny] == 1){
+                          mat[nx][ny] = -1;
+                      }
+                  }
+              }
+          }
+      }
+      queue<pair<int, pair<int,int>>>q;
+      vector<vector<int>>vis(m,vector<int>(n,0));
+      for( int i = 0;i<m;i++){
+          if(mat[i][0] == 1){
+              vis[i][0] = 1;
+              q.push({0,{i,0}});
+          }
+      }
+      int ans = INT_MAX;
+      while(q.size() != 0){
+          int dist = q.front().first;
+          int x = q.front().second.first;
+          int y = q.front().second.second;
+          q.pop();
+          if(y == n-1){
+              return dist+1;
+          }
+          for(int k = 0;k<4;k++){
+               int nx = x + dx[k];
+                      int ny = y + dy[k];
+                      if(nx >= 0 && ny >= 0 && nx < m && ny < n && vis[nx][ny] == 0 && mat[nx][ny] == 1 ){
+                          vis[nx][ny] = 1;
+                            q.push({dist+1,{nx, ny}});
+                      }
+          }
+      }
+      return -1;
+
+
+
+
+https://www.geeksforgeeks.org/problems/find-shortest-safe-route-in-a-matrix/1
