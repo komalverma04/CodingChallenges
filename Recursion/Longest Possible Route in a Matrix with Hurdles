@@ -1,0 +1,34 @@
+int dx[4] = {-1,0,1,0};
+      int dy[4] = {0,1,0,-1};
+    void solve(vector<vector<int>> matrix, int xs, int ys, int xd, int yd, int& maxi, int dist, int m, int n){
+        if(xs == xd && ys == yd){
+            maxi = max(maxi, dist);
+            return;
+        }
+        for(int i = 0;i<4;i++){
+            int nx = xs + dx[i];
+            int ny = ys + dy[i];
+            if(nx >= 0 && ny >= 0 && nx < m && ny < n && matrix[nx][ny] == 1){
+                matrix[nx][ny] = -1;
+                solve(matrix, nx, ny, xd, yd, maxi,dist+1, m, n);
+                matrix[nx][ny] = 1;
+            }
+        }
+    }
+public:
+    int longestPath(vector<vector<int>> matrix, int xs, int ys, int xd, int yd)
+    {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        if(matrix[xs][ys]==0 || matrix[xd][yd] == 0){
+            return -1;
+        }
+        int maxi = INT_MIN;
+        int dist = 0;
+        matrix[xs][ys] = -1;
+        solve(matrix, xs, ys, xd, yd,maxi, 0, m, n);
+        matrix[xs][ys] = 1;
+        if(maxi == INT_MIN){
+            return -1;
+        }
+        return maxi;
