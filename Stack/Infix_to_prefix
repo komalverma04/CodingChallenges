@@ -1,0 +1,56 @@
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int priority(char ch){
+    int ans = 0;
+    if(ch == '+' || ch == '-'){
+        ans = 1;
+    }else if(ch == '*' || ch == '/'){
+        ans = 2;
+    }else if(ch == '^'){
+        ans = 3;
+    }else{
+        ans = -1;
+    }
+    return ans;
+}
+int main() {
+    string str = "";
+  cin>>str;
+  reverse(str.begin(), str.end());
+  for(int i = 0;i < str.length(); i++){
+      if(str[i] == '('){
+          str[i] = ')';
+      }else if(str[i] == ')'){
+          str[i] = '(';
+      }
+  }
+  stack<char>st;
+  string ans = "";
+  for( int i = 0;i<str.size(); i++){
+      if((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')){
+          ans += str[i];
+      }else if(str[i] == '('){
+          st.push('(');
+      }else if(str[i] == ')'){
+          while(!st.empty() && st.top() != '('){
+              ans += st.top();
+              st.pop();
+          }
+          if(!st.empty())st.pop();
+      }else{
+          while(!st.empty() && priority(str[i]) < priority(st.top())){
+              ans += st.top();
+              st.pop();
+          }
+          st.push(str[i]);
+      }
+  }
+  while(!st.empty()){
+      ans += st.top();
+      st.pop();
+  }
+  reverse(ans.begin(), ans.end());
+  cout<<ans;
+  return 0;
+}
