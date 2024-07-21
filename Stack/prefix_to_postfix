@@ -1,0 +1,20 @@
+string preToPost(string exp) {
+         stack<string>st;
+        int n = exp.size();
+        
+        for(int i = n-1;i>=0;i--){
+            if((exp[i] >= 'a' && exp[i] <= 'z' ) || (exp[i] >= 'A' && exp[i] <= 'Z' ) || (exp[i] >= '0' && exp[i] <= '9' ) ){
+                st.push(string(1,exp[i]));
+            }else {
+                if (st.size() >= 2) {
+                string op1 = st.top();
+                st.pop();
+                string op2 = st.top();
+                st.pop();
+                
+                st.push(op1 + op2 + exp[i]);
+            }
+            }
+        }
+        return st.top();
+    }
