@@ -1,0 +1,13 @@
+
+    vector<int> count_NGE(int n, vector<int> &arr, int queries, vector<int> &indices){
+        vector<int>ans;
+       for(int i = 0;i < queries; i++){
+           int ind = indices[i]; int cnt = 0;
+           for(int j = n-1; j >= ind; j--){
+               if(arr[ind] < arr[j])cnt++;
+               
+           }
+           ans.push_back(cnt);
+       }
+       return ans;
+    }
