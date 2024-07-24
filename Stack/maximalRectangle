@@ -1,0 +1,47 @@
+class Solution {
+    int solve(vector<int>& arr){
+        int n = arr.size();
+        stack<int>st;
+        int maxi = INT_MIN;
+        for(int i = 0;i<n;i++){
+            while(!st.empty() && arr[st.top()] > arr[i]){
+                int element = arr[st.top()]; st.pop();
+                int nse = i;
+                int pse = st.empty() ? -1: st.top();
+                maxi = max(maxi, (element * (nse - pse - 1)));
+            }
+            st.push(i);
+        }
+        while(!st.empty()){
+             int element = arr[st.top()]; st.pop();
+                int nse = n;
+                int pse = st.empty() ? -1: st.top();
+                maxi = max(maxi, (element * (nse - pse - 1)));
+        }
+        return maxi;
+    }
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+       
+        int row = matrix.size();
+        int col = matrix[0].size();
+        vector<vector<int>> prefix_matrix(row, vector<int>(col, 0));
+        for( int i = 0; i< col; i++){
+            prefix_matrix[0][i] = matrix[0][i] - '0';
+        }
+        for(int i = 1; i< row; i++){
+            for(int j = 0; j<col; j++){
+
+                if(matrix[i][j] == '0')prefix_matrix[i][j] = 0;
+                else{
+                    prefix_matrix[i][j] = prefix_matrix[i-1][j] + (matrix[i][j] - '0');
+                }
+            }
+        }
+        int maxi = INT_MIN;
+        for( int i = 0; i<row; i++){
+            maxi = max(maxi, solve(prefix_matrix[i]));
+        }
+        return maxi;
+    }
+};
