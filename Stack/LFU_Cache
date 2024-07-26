@@ -1,0 +1,113 @@
+class Node {
+public:
+int key;
+int value;
+int cnt;
+Node* prev;
+Node* next;
+
+Node(int key, int val){
+    this -> key = key;
+    value = val;
+    prev = next = NULL;
+    cnt = 1;
+}
+};
+class listNode{
+public:
+ Node *head;
+ Node *tail;
+ int size;
+ listNode(){
+    head = new Node(-1,-1);
+    tail = new Node(-1,-1);
+    size = 0;
+    head->prev = NULL;
+    head->next = tail;
+    tail->next = NULL;
+    tail->prev = head;
+ }
+void insert_at_front(Node* node){
+            Node *after_cur = head->next;
+            head->next = node;
+            node->next = after_cur;
+            node->prev = head;
+            after_cur->prev = node;
+            size++;
+        }
+        void delete_node(Node* node){
+            Node *before = node->prev;
+            Node *after = node->next;
+            before->next = after;
+            after->prev = before;
+            size--;
+        }
+};
+class LFUCache {
+public:
+unordered_map<int, Node* >mpp; int capacity; map<int, listNode* >counter;
+        int mini;
+        int cursize;
+        
+    LFUCache(int capacity) {
+        this->capacity = capacity;
+        mini = 0;
+        cursize = 0;
+    }
+    void update_freq(Node * node){
+        mpp.erase(node->key);
+        counter[node->cnt]->delete_node(node);
+        if(node->cnt == mini && counter[node->cnt]->size == 0){
+            mini++;
+        }
+        listNode* nextlistNode = new listNode();
+        if(counter.find(node -> cnt + 1) != counter.end()){
+            nextlistNode = counter[node -> cnt + 1];
+        }
+        node -> cnt += 1;
+        nextlistNode->insert_at_front(node);
+        counter[node->cnt] = nextlistNode;
+        mpp[node->key] = node;
+    }
+    int get(int key) {
+         if(mpp.find(key) == mpp.end()){
+            return -1;
+        }
+        Node *node = mpp[key];
+        update_freq(node);
+        return node->value;
+    }
+    
+    void put(int key, int value) {
+        if(capacity == 0)return;
+        if(mpp.find(key) != mpp.end()){
+            Node* node = mpp[key];
+            node->value = value;
+            update_freq(node);
+        }else{
+            if(cursize == capacity){
+                listNode* l = counter[mini];
+                mpp.erase(l->tail->prev->key);
+                counter[mini]->delete_node(l->tail->prev);
+                cursize--;
+            }
+            cursize++;
+            mini = 1;
+            listNode* lst = new listNode();
+            if(counter.find(mini) != counter.end()){
+                lst = counter[mini];
+            }
+            Node* node = new Node(key,value);
+            lst->insert_at_front(node);
+            mpp[key] = node;
+            counter[mini] = lst;
+        }
+    }
+};
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache* obj = new LFUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
