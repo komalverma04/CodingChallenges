@@ -30,3 +30,28 @@ int numberOfSubarrays(vector<int>& nums, int k) {
     }
 
 sliding window
+class Solution {
+    int atmostk(vector<int>& nums, int k){
+        int i = 0;
+        int j = 0;
+        int ans = 0;
+        int len = 0;
+        int odd = 0;
+        int n = nums.size();
+        while(j < n){
+            
+            if(nums[j++] % 2 != 0)odd++;
+            while(odd > k){
+                if(nums[i++] % 2 != 0)odd--;
+            }
+
+
+            if(odd <= k)len += j-i;
+        }
+        return len;
+    }
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        return atmostk(nums, k) - atmostk(nums, k-1);
+    }
+};
