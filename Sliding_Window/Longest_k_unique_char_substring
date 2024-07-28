@@ -1,0 +1,18 @@
+int longestKSubstr(string s, int k) {
+    int n = s.size();
+    int i = 0; int len = INT_MIN;
+    int j = 0; int dist = 0;
+    map<char, int> freq;
+    while(j < n){
+        if(freq[s[j++]]++ == 0){
+            dist++;
+        }
+        while(dist > k){
+            if(freq[s[i++]]-- == 1){
+            dist--;
+        }
+        }
+        if(dist == k)len = max(len, j-i);
+    }
+    return len == INT_MIN? -1: len;
+    }
