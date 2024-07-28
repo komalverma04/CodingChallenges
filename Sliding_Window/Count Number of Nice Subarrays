@@ -1,0 +1,32 @@
+Prefix sum
+
+
+int numberOfSubarrays(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int>prefix(n,0);
+        map<int,int>freq;
+        int i = 0;
+        int j = 0;
+        int ans = 0;
+        if(nums[0] % 2 != 0){
+            prefix[0] = 1;
+        }else{
+            prefix[0] = 0;
+        }
+        for(int ind = 1; ind<n;ind++){
+            int odd = 0;
+            if(nums[ind] % 2 != 0){
+                odd = 1;
+            }
+            prefix[ind] = prefix[ind-1] + odd;
+        }
+        freq[0] = 1;
+        while(i<n){
+            ans += freq[prefix[i] - k];
+            freq[prefix[i]]++;
+            i++;
+        }
+        return ans;
+    }
+
+sliding window
