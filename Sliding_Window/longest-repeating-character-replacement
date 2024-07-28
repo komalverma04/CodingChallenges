@@ -19,3 +19,5 @@ public:
         return len;
     }
 };
+we are not updating maxf as there is no need for it coz we need to find maximum one and when window squeezes maxf will decrease only which will not 
+affect our ultimate answer. 
