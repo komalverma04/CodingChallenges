@@ -1,0 +1,26 @@
+class Solution {
+    int atmostk(vector<int>& s, int k){
+        int n = s.size();
+    int i = 0; int len = 0;
+    int j = 0; int dist = 0;
+    map<int, int> freq;
+    while(j < n){
+        if(freq[s[j++]]++ == 0){
+            dist++;
+        }
+        while(dist > k){
+            if(freq[s[i++]]-- == 1){
+            dist--;
+        }
+        }
+        if(dist <= k)len += j-i;
+    }
+     return len;
+    }
+   
+public:
+    int subarraysWithKDistinct(vector<int>& s, int k) {
+         return atmostk(s,k) - atmostk(s, k-1);
+    
+    }
+};
