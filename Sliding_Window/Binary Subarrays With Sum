@@ -1,0 +1,41 @@
+SLIDING WINDOW
+class Solution {
+    int atmostk(vector<int>& nums, int goal){
+        int i = 0; int j = 0;
+        int ans = 0;
+        int sum = 0;
+        int n = nums.size();
+        while(j<n){
+            sum += nums[j++];
+            while(sum > goal && i < j){
+                sum -= nums[i++];
+            }
+            ans += j-i;
+        }
+        return ans;
+    }
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        return atmostk(nums, goal) - atmostk(nums, goal-1);
+    }
+};
+PREFIX SUM
+int numSubarraysWithSum(vector<int>& nums, int goal) {
+        
+        int n= nums.size();
+        map<int,int>freq;
+        vector<int>pref(nums.size());
+        pref[0]=nums[0];
+        for(int i=1;i<n;i++){
+            pref[i] = pref[i-1] + nums[i];
+        }
+        
+        freq[0] = 1; int ans = 0;
+       
+        for(int i=0;i<n;i++){
+            ans += freq[pref[i]-goal];
+            freq[pref[i]] +=1;
+        }
+        
+        return ans;
+    }
