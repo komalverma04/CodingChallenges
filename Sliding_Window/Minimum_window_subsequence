@@ -1,0 +1,33 @@
+string minWindow(string s, string t) {
+       int ns = s.size();
+        int nt = t.size();
+       
+       int i = 0; int head = -1; int start = -1;
+        int j = 0; int req = nt; int len = INT_MAX;
+       while(i < ns){
+           while(i<ns && s[i] != t[0]){
+               i++;
+           }
+           if(i == ns)break;
+           start = i;
+           j = 0;
+           while(i<ns && j<nt){
+               if(s[i] == t[j]){
+                   j++;
+               }
+               i++;
+           }
+           if(j == nt){
+               if(i-start < len){
+                   len = i-start;
+                   head = start;
+               }
+           }
+           i = start + 1;
+           
+       }
+        if(len!= INT_MAX){
+            return s.substr(head,len);
+        }
+        else return "";
+    }
