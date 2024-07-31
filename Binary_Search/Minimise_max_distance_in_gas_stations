@@ -22,3 +22,37 @@ double findSmallestMaxDist(vector<int> &stations, int k) {
         }
         return maxans;
     }
+
+
+better solution: 
+ double findSmallestMaxDist(vector<int> &stations, int k) {
+        int n = stations.size();
+        vector<int>howmany(n-1,0);
+        priority_queue<pair<long double,int>>maxh;
+        for(int i = 0;i<n-1;i++){
+             long double dist = stations[i+1] - stations[i];
+              maxh.push({dist, i});
+        }
+        for(int i = 1; i<=k; i++){
+            auto ele = maxh.top();
+            maxh.pop();
+            long double dist = ele.first;
+            int maxind = ele.second;
+            howmany[maxind]++;
+            long double actualdist = stations[maxind+1] - stations[maxind];
+            long double sectionLength = (long double)actualdist/(howmany[maxind]+1);
+            maxh.push({sectionLength, maxind});
+        }
+        
+        // for(int ind = 0;ind<n-1;ind++){
+        //     long double dist = stations[ind+1] - stations[ind];
+        //       long double sectionLength = (long double)dist/(howmany[ind]+1);
+        //       maxans = max(maxans, sectionLength);
+        // }
+        long double maxans = maxh.top().first;
+        return round(maxans * 100.0) / 100.0;// earlier it was simple return with static cast but give anser as 18.62 and expected was 18.63
+    }
+Time complexity: O(klog(n))
+
+Optimal solution:
+Binary Search
