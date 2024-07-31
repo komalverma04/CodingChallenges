@@ -1,0 +1,24 @@
+double findSmallestMaxDist(vector<int> &stations, int k) {
+        int n = stations.size();
+        vector<int>howmany(n-1,0);
+        for(int i = 1; i<=k; i++){
+            long double maxi = INT_MIN;
+            int maxind = -1;
+            for(int ind = 0; ind<n-1;ind++){
+                long double dist = stations[ind+1] - stations[ind];
+                long double sectionLength = (long double)dist/(howmany[ind]+1);
+                if(maxi < sectionLength){
+                    maxi = sectionLength;
+                    maxind = ind;
+                }
+            }
+            howmany[maxind]++;
+        }
+        long double maxans = INT_MIN;
+        for(int ind = 0;ind<n-1;ind++){
+            long double dist = stations[ind+1] - stations[ind];
+              long double sectionLength = (long double)dist/(howmany[ind]+1);
+              maxans = max(maxans, sectionLength);
+        }
+        return maxans;
+    }
