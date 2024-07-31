@@ -1,4 +1,47 @@
- int kthElement(vector<int>& nums1, vector<int>& nums2, int k) {
+lass Solution {
+  public:
+    int kthElement(vector<int>& arr1, vector<int>& arr2, int k) {
+       int i = 0;
+       int j = 0;
+       int n = arr1.size(); int ans = -1;
+       int m = arr2.size(); int cnt = 1;
+       while( i<n && j<m){
+           if(arr1[i] < arr2[j]){
+               if(cnt == k){
+                   ans = arr1[i];
+                   
+               }
+               cnt++; i++;
+           }else{
+               if(cnt == k){
+                   ans = arr2[j];
+               }
+               cnt++; j++;
+           }
+       }
+       while(i < n){
+           if(cnt == k){
+                   ans = arr1[i];
+                   
+               }
+               cnt++; i++;
+       }
+       while(j < m){
+           if(cnt == k){
+                   ans = arr2[j];
+               }
+               cnt++; j++;
+       }
+       return ans;
+    }
+};
+
+
+
+
+Binary Search solution
+
+int kthElement(vector<int>& nums1, vector<int>& nums2, int k) {
        int n = nums1.size();
         int m = nums2.size();
         if(n>m )return kthElement(nums2, nums1,k);
