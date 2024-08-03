@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        unordered_map<char,int>mpp;
+       
+        int n = s.size();
+        int m = t.size();
+        if(n != m)return false;
+        for(int i = 0; i<n;i++){
+            mpp[s[i]]++;
+        }
+        for(int i = 0; i<n;i++){
+            if(mpp.find(t[i]) == mpp.end()){
+                return false;
+            }mpp[t[i]]--;
+        }
+        for(int i = 0; i<n;i++){
+            if(mpp[s[i]] != 0){
+                return false;
+
+            }
+        }
+        return true;
+    }
+};
