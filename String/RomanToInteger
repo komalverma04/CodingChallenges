@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        unordered_map<char,int>mpp;
+        mpp['I'] = 1;
+        mpp['V'] = 5;
+        mpp['X'] = 10;
+        mpp['L'] = 50;
+        mpp['C'] = 100;
+        mpp['D'] = 500;
+        mpp['M'] = 1000;
+        int sum = 0;
+      int n = s.size(); 
+      for(int i = 0; i<n;i++){
+        char x = (char)s[i];
+        int val = 0;
+        if(x == 'I'){
+            if(s[i+1] == 'V'){
+                val = 4;
+                i++;
+            }else if(s[i+1] == 'X'){
+                val = 9;
+                i++;
+            }else{
+                val = 1;
+            }
+        }else  if(x == 'X'){
+            if(s[i+1] == 'L'){
+                val = 40;
+                i++;
+            }else if(s[i+1] == 'C'){
+                val = 90;
+                i++;
+            }else{
+                val = mpp[x];
+            }
+        }else if(x == 'C'){
+            if(s[i+1] == 'D'){
+                val = 400;
+                i++;
+            }else if(s[i+1] == 'M'){
+                val = 900;
+                i++;
+            }else{
+                val = mpp[x];
+            }
+        }else{
+            val = mpp[x];
+        }
+        
+        sum += val;
+      }
+        return sum;
+    }
+};
