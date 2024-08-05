@@ -1,0 +1,28 @@
+long long int atmostk(string s, int k){
+      	long long ans = 0;
+    	int cnt = 0;
+    	int i = 0;
+    	int j = 0;
+    	int n = s.size();
+    	vector<int>freq(26,0);
+    	while(i < n){
+    	    int ch = s[i++] - 'a';
+    	    if(freq[ch]++ == 0){
+    	        cnt++;
+    	    }
+    	    while(cnt > k){
+    	        int c = s[j++] - 'a';
+    	       if(freq[c]-- == 1){
+    	        cnt--;
+    	    } 
+    	    }
+    	    
+    	        ans += i - j;
+    	    
+    	}
+    	return ans;
+  }
+    long long int substrCount (string s, int k) {
+        return atmostk(s,k) - atmostk(s,k-1);
+    
+    }
