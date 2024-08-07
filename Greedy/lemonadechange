@@ -1,0 +1,66 @@
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) {
+          unordered_map<int, int>mpp;
+          vector<int>den = {20,10,5};
+          int n = bills.size();
+          for(int i = 0; i<n; i++){
+            mpp[bills[i]]++;
+            int val = bills[i] - 5;
+                if(val != 0){
+                    for(int i = 0; i<3;i++){
+                    if(val == 0)break;
+                    int num = val/den[i];
+                    if(num == 0 || mpp[den[i]] < num){
+                        continue;
+                    }else{
+                        val = val%den[i];
+                            mpp[den[i]] -= num;
+                        
+                    }
+                }
+                if(val > 0)return false;
+                }
+                
+            
+          }
+          return true;
+    }
+};
+
+
+
+OPTIMAL:
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) {
+          int five = 0;
+          int ten = 0;
+
+          int n = bills.size();
+          for(int i = 0; i<n; i++){
+           if(bills[i] == 5){
+            five++;
+           }else if(bills[i] == 10){
+            if(five > 0){
+                
+                five--;
+
+            }else{
+                return false;
+            }
+            ten++;
+           }else{
+            if(five > 0 && ten > 0){
+                five--;
+                ten--;
+            }else if(five >= 3){
+                five = five - 3;
+            }else{
+                return false;
+            }
+           }
+          }
+          return true;
+    }
+};
