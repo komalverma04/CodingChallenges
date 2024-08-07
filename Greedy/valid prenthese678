@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool checkValidString(string s) {
+        int star = 0;
+        int diff = 0;
+        int i = 0;
+        int n = s.size();
+        while(i<n){
+            cout<<s[i]<<" "<<diff<<" "<<star<<endl;
+            if(s[i] == '('){
+                diff++;
+            }else if(s[i] == '*'){
+                star++;
+            }else{
+                diff--;
+            }
+            if(diff + star < 0)return false;
+            i++;
+        }
+        i = n-1;
+        diff = 0;
+        star = 0;
+        while(i >= 0){
+           
+            if(s[i] == ')'){
+                diff++;
+            }else if(s[i] == '*'){
+                star++;
+            }else{
+                diff--;
+            }
+            if(diff + star < 0)return false;
+            i--;
+        }
+        
+        return true;
+    }
+};
