@@ -28,3 +28,37 @@ public:
         return sum;
     }
 };
+
+
+
+
+Optimal solution:-
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int sum = 1;
+        int i = 1;
+        int n = ratings.size();
+        int peak = 0;
+        int down = 0;
+        while(i < n){
+             int peak = 1;
+        int down = 1;
+            while(i<n && ratings[i] > ratings[i-1]){
+                peak += 1;
+                sum += peak;
+                i++;
+            }
+            while(i<n && ratings[i] < ratings[i-1]){
+                sum += down;
+                down += 1;
+                i++;
+            }
+            while(i < n && ratings[i] == ratings[i-1]){
+                sum += 1;i++;
+            }
+            if(down > peak) sum += (down - peak);
+        }
+        return sum;
+    }
+};
