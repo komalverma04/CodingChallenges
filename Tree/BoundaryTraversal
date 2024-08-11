@@ -1,0 +1,57 @@
+class Solution {
+    bool isLeaf(Node *root){
+        if(root->left ||  root->right){
+            return false;
+        }
+        return true;
+    }
+    void left_boundary(Node *cur, vector<int> &ans){
+        
+        while(cur){
+            if(!isLeaf(cur))ans.push_back(cur->data);
+            if(cur->left)cur = cur->left;
+            else{
+                cur = cur -> right;
+            }
+        }
+    }
+    void right_boundary(Node *cur, vector<int> &ans){
+      vector<int> tmp;
+        while(cur){
+            if(!isLeaf(cur))tmp.push_back(cur->data);
+            if(cur->right)cur = cur->right;
+            else{
+                cur = cur -> left;
+            }
+        }
+         reverse(tmp.begin(), tmp.end());
+        ans.insert(ans.end(), tmp.begin(), tmp.end());
+    }
+    void leaf_nodes(Node *root, vector<int> &ans){
+        if(root == NULL)return;
+       if(isLeaf(root)){
+           ans.push_back(root->data);
+           return;
+       }
+       if(root->left)leaf_nodes(root->left,ans);
+       if(root->right)leaf_nodes(root->right, ans);
+    }
+public:
+    vector <int> boundary(Node *root)
+    {
+        
+        vector<int>ans;
+        if(root == NULL){
+            return ans;
+        }
+        if(!isLeaf(root)){
+            ans.push_back(root->data);
+            
+        }
+        
+        left_boundary(root->left, ans);
+        leaf_nodes(root, ans);
+        right_boundary(root->right, ans);
+        return ans;
+    }
+};
