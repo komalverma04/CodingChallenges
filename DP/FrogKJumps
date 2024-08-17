@@ -1,0 +1,27 @@
+int solve(vector<int>& arr, int& k, int i, vector<int>& dp){
+        if(i == 0) return 0;
+        int mini = INT_MAX;
+        if(dp[i] != -1)return dp[i];
+        for(int ind = k; ind>0; ind--){
+            int energy = INT_MAX;
+            if(i - ind >= 0) energy = solve(arr, k, i - ind, dp) + abs(arr[i] - arr[i - ind]);
+            mini = min(mini, energy);
+        }
+        return dp[i] = mini;
+    }
+  public:
+    int minimizeCost(vector<int>& arr, int& k) {
+        int n = arr.size();
+        vector<int>dp (n, 0);
+        dp[0] = 0;
+        for(int i = 1; i<n;i++){
+            int mini = INT_MAX;
+            for(int ind = k; ind>0; ind--){
+            int energy = INT_MAX;
+            if(i - ind >= 0) energy = dp[i-ind] + abs(arr[i] - arr[i - ind]);
+            mini = min(mini, energy);
+        }
+        dp[i] = mini;
+        }
+        return dp[n-1];
+    }
