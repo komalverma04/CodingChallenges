@@ -1,0 +1,22 @@
+Greedy doesn't work here: 
+ex: 30, 10, 60, 10, 60, 50
+   int solve(int i, vector<int>& height, vector<int>& dp){
+        if(i == 0)return 0;
+        int right = INT_MAX;
+        if(dp[i] != -1) return dp[i];
+        int left = solve(i-1, height, dp) + abs(height[i] - height[i-1]);
+        if(i > 1) right = solve(i-2, height, dp) + abs(height[i] - height[i-2]);
+        return dp[i] = min(left, right);
+    }
+  public:
+    int minimumEnergy(vector<int>& height, int n) {
+        vector<int> dp(n, 0);
+        dp[0] = 0;
+        for(int i = 1; i<n; i++){
+            int right = INT_MAX;
+            int left = dp[i-1] + abs(height[i] - height[i-1]);
+            if( i > 1) right = dp[i-2] + abs(height[i] - height[i-2]);
+            dp[i] = min(left, right);
+        }
+       return dp[n-1];
+    }
