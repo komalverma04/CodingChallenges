@@ -1,0 +1,50 @@
+ int solve(vector<vector<int>>& arr, int i, int last, vector<vector<int>>& dp){
+        
+        if(i == 0){
+            int maxi = 0;
+            for(int j = 0; j<3;j++){
+                if(j != last){
+                    maxi = max(maxi, arr[i][j]);
+                }
+            }
+            return maxi;
+        }
+        
+        if(dp[i][last] != -1){
+            return dp[i][last];
+        }
+        int maxi = 0;
+        for(int ind = 0; ind < 3; ind++){
+            
+            if(ind != last){
+                 maxi = max(maxi, (arr[i][ind] + solve(arr, i-1, ind, dp)));
+            }
+            
+        }
+        return dp[i][last] = maxi;
+    }
+  public:
+    int maximumPoints(vector<vector<int>>& arr, int n) {
+        int i = n-1;
+        int last = 3;
+        vector<vector<int>>dp(n, vector<int>(4, 0));
+        dp[0][0] = max(arr[0][1], arr[0][2]);
+         dp[0][1] = max(arr[0][0], arr[0][2]);
+          dp[0][2] = max(arr[0][1], arr[0][0]);
+           dp[0][3] = max(arr[0][0], max(arr[0][1], arr[0][2]));
+           for(int i = 1; i<n;i++){
+               for(int last = 0; last<4; last++){
+                    
+        int maxi = 0;
+        for(int ind = 0; ind < 3; ind++){
+            
+            if(ind != last){
+                 maxi = max(maxi, (arr[i][ind] + dp[i-1][ind]));
+            }
+            
+        }
+        dp[i][last] = maxi;
+               }
+           }
+        return dp[n-1][3];
+    }
