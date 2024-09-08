@@ -1,0 +1,57 @@
+//User function Template for C++
+
+class Solution {
+  private:
+    void fillArtPoints(
+        int node,
+        int parent,
+        int& timer,
+        vector<int>& disTime,
+        vector<int>& lowReach,
+        vector<bool>& isArtPoint,
+        vector<bool>& visited,
+        vector<int> adj[]
+    ) {
+        disTime[node] = lowReach[node] = ++timer;
+        visited[node] = true;
+        
+        int childCount = 0;
+        for (int nextNode: adj[node]) {
+            if (nextNode == parent) continue;
+            if (!visited[nextNode]) {
+                fillArtPoints(nextNode, node, timer, disTime, lowReach, isArtPoint, visited, adj);
+                lowReach[node] = min(lowReach[node], lowReach[nextNode]);
+                childCount++;
+                
+                if (lowReach[nextNode] >= disTime[node] && parent != -1)
+                    isArtPoint[node] = true;
+            } else {
+                lowReach[node] = min(lowReach[node], disTime[nextNode]);
+            }
+        }
+        
+        if (parent == -1 && childCount > 1)
+            isArtPoint[node] = true;
+    }
+    
+  public:
+    vector<int> articulationPoints(int V, vector<int>adj[]) {
+        vector<bool> isArtPoint(V, false);
+        vector<bool> visited(V, false);
+        vector<int> disTime(V, -1);
+        vector<int> lowReach(V, -1);
+        
+        int timer = 0;
+        for (int i=0;i<V;i++) {
+            if (!visited[i]) {
+                fillArtPoints(i, -1, timer, disTime, lowReach, isArtPoint, visited, adj);
+            }
+        }
+        
+        vector<int> res;
+        for (int node=0;node<V;node++)
+            if (isArtPoint[node]) res.push_back(node);
+        if (res.size() == 0) res.push_back(-1);    
+        return res;
+    }
+};
