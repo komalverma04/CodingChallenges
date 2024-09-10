@@ -1,0 +1,64 @@
+class Solution {
+  public:
+    void  func (int i,int j, vector<vector<int>>&  dp,set<string>&  ans,string temp,
+     string & s, string &  t,
+      unordered_map<string,int> & memo){
+          int n=s.length(),m=t.length();
+             if (i==n || j==m){
+                 ans.insert(temp);
+                  return ;
+             }
+                   string key = to_string(i) + "," + to_string(j) + "," +temp;
+                    if (memo.find(key)!=memo.end()) return ;
+                     memo[key]=1;
+             if (s[i]==t[j]){
+                  func (i+1,j+1,dp,ans,temp+s[i],s,t,memo);     
+             }  
+             else{
+                    if (dp[i+1][j]<dp[i][j+1]){
+                          func (i,j+1,dp,ans,temp,s,t,memo); 
+                    }
+                 else  if (dp[i][j+1]<dp[i+1][j]){
+                          func (i+1,j,dp,ans,temp,s,t,memo); 
+                    }
+                    else {
+                          func (i,j+1,dp,ans,temp,s,t,memo);
+                          func (i+1,j,dp,ans,temp,s,t,memo); 
+                    }
+             }
+     }
+    vector<string> all_longest_common_subsequences(string s, string t) {
+         int n=s.length(),m=t.length(),i,j,k;
+          vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+       for (int i = n - 1; i >= 0; i--) {
+            for (int j = m - 1; j >= 0; j--) {
+                if (s[i] == t[j]) {
+                    dp[i][j] = 1 + dp[i+1][j + 1];
+                } else
+                     dp[i][j] = max(  dp[i+1][j] , dp[i][j + 1]);
+            }
+           
+        }
+        //   i=0;
+        //     j=0;
+        //      string ans="";
+        //       while(i<n && j<m){
+        //             if (s[i]==t[j]){
+        //                  ans+=s[i];
+        //                   i++;
+        //                   j++;
+        //             }
+        //             else if (dp[i][j+1]>dp[i+1][j]){
+        //                  j++;
+        //             }
+        //             else i++;
+        //       }
+                set<string> ans;
+                 unordered_map<string,int> memo;
+              func (0,0,dp,ans,"",s,t,memo);
+            //   sort(ans.begin(),ans.end());
+             vector<string> res;
+              for (auto &i:ans) res.push_back(i);
+               return res;
+    }
+};
