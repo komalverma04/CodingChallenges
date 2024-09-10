@@ -1,0 +1,32 @@
+ int solve(int i, int len, int price[], vector<vector<int>>& dp){
+      if(len < 0)return -1e8;
+      if(i<0)return 0;
+      if(i == 0){
+          return len * price[0];
+      }
+      if(dp[i][len] != -1)return dp[i][len];
+      int notTake = solve(i-1, len, price, dp);
+      int take = -1e8;
+      int rodlen = i+1;
+      if(len >= (i+1) && i>=0) take = price[i] + solve(i, len-(i+1), price, dp);
+      return dp[i][len] = max(take, notTake);
+  }
+    int cutRod(int price[], int n) {
+        vector<vector<int>> dp(n, vector<int>(n+1, 0));
+        for(int i = 0; i<=n; i++){
+            dp[0][i] = i * price[0];
+        }
+        
+        for(int i = 1; i<n; i++){
+            for(int j = 1; j<=n;j++){
+                
+            int notTake = dp[i-1][j];
+            int take = -1e8;
+            int rodlen = i+1;
+            if(j >= (i+1) && i>=0) take = price[i] + dp[i][j-rodlen];
+            dp[i][j] = max(take, notTake);
+            }
+        }
+        
+        return dp[n-1][n];
+    }
