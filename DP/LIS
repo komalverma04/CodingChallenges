@@ -1,0 +1,29 @@
+class Solution {
+public:
+// int solve(int i, int prev, int n, vector<int>& nums, vector<vector<int>>& dp){
+//     if(i-1 == n)return 0;
+//     if(dp[i][prev] != -1)return dp[i][prev];
+//     int notTake =  solve(i+1, prev, n, nums, dp);
+//     int take = 0;
+//     if(prev == 0 || nums[i-1] > nums[prev - 1]){
+//         take = 1 + solve(i+1, i, n, nums, dp);
+//     }
+//     return   = max(take, notTake);
+// }
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> next(n+1, 0), cur(n+1, 0) ;
+        for(int i = n; i>=1; i--){
+            for(int prev = n-1; prev >= 0; prev--){
+                        int notTake =  next[prev];
+                        int take = 0;
+                        if(prev == 0 || nums[i-1] > nums[prev - 1]){
+                        take = 1 + next[i];
+                        }
+                        cur[prev] = max(take, notTake);
+            }
+            next = cur;
+        }
+        return cur[0];
+    }
+};
